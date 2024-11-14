@@ -1,9 +1,9 @@
-import { JSDOM } from 'jsdom'
+import { JSDOM } from "jsdom"
 
 function normalizeUrl(url) {
   const urlObj = new URL(url)
   let normalized = urlObj.host + urlObj.pathname
-  if (normalized.slice(-1) === '/') {
+  if (normalized.slice(-1) === "/") {
     normalized = normalized.slice(0, -1)
   }
   return normalized
@@ -11,11 +11,11 @@ function normalizeUrl(url) {
 
 function getURLsFromHTML(html, url) {
   const dom = new JSDOM(html)
-  const aTags = dom.window.document.querySelectorAll('a')
+  const aTags = dom.window.document.querySelectorAll("a")
   const urls = []
   aTags.forEach((tag) => {
-    if (tag.hasAttribute('href')) {
-      let href = tag.getAttribute('href')
+    if (tag.hasAttribute("href")) {
+      let href = tag.getAttribute("href")
 
       try {
         href = new URL(href, url).href
@@ -53,8 +53,8 @@ async function crawlPage(baseURL, currentURL = baseURL, pages = {}) {
     return
   }
 
-  const contentType = res.headers.get('Content-Type')
-  if (!contentType || !contentType.includes('text/html')) {
+  const contentType = res.headers.get("Content-Type")
+  if (!contentType || !contentType.includes("text/html")) {
     console.log(`${currentURL} did not provide text/html`)
     return
   }
@@ -66,7 +66,5 @@ async function crawlPage(baseURL, currentURL = baseURL, pages = {}) {
 
   return pages
 }
-
-crawlPage('https://wagslane.dev')
 
 export { normalizeUrl, getURLsFromHTML, crawlPage }
